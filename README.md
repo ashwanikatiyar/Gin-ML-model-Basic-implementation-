@@ -1,0 +1,140 @@
+🧠 Sentiment Analysis API (ML from Scratch in Go)
+A lightweight Sentiment Analysis REST API built using Go (Gin) with a Logistic Regression model implemented from scratch (no ML libraries).
+This project demonstrates how to design, train, and serve a simple machine learning model as a backend service, with a clear separation between ML logic and API infrastructure.
+✨ Features
+🚀 REST API built with Gin
+🧮 Logistic Regression implemented from scratch
+📝 Simple Bag-of-Words text vectorization
+🔁 Clear separation of training and prediction
+📦 No ML frameworks (no sklearn, no TensorFlow)
+🧠 Fully explainable and interpretable model
+📌 Problem Statement
+Given a short piece of text, predict whether its sentiment is:
+Positive
+Negative
+The model outputs:
+A probability score (0.0 – 1.0)
+A sentiment label based on the score
+🏗️ Project Structure
+sentiment-api/
+│
+├── main.go              # Gin server entry point
+├── go.mod
+│
+├── api/
+│   └── handlers.go      # HTTP request handlers
+│
+├── ml/
+│   ├── vectorizer.go    # Bag-of-Words implementation
+│   ├── model.go         # Logistic Regression model
+│   ├── train.go         # Gradient Descent training
+│   └── state.go         # In-memory model state
+│
+└── README.md
+🧠 Machine Learning Details
+Model
+Logistic Regression
+Binary classification (positive / negative)
+Text Vectorization
+Bag-of-Words
+Vocabulary learned from training data
+Text converted into numeric feature vectors
+Training
+Loss Function: Binary Cross-Entropy
+Optimization: Gradient Descent
+Weights and bias updated iteratively
+Prediction
+
+## Logistic Regression Model
+
+The predicted output is calculated using the following sigmoid activation function:
+
+$$ \hat{y} = \sigma(w \cdot x + b) $$
+
+**Where:**
+*   **$x$**: The input [text feature vector](https://developers.google.com) (e.g., TF-IDF or Word Embeddings).
+*   **$w$**: The [learned weights](https://pytorch.org) that determine the importance of each feature.
+*   **$b$**: The [bias term](https://machinelearningmastery.com) (intercept).
+*   **$\sigma$**: The [Sigmoid function](https://en.wikipedia.org), which maps any real-valued number into a probability between 0 and 1.
+
+
+🌐 API Endpoints
+1️⃣ Health Check
+GET /health
+{
+  "status": "ok"
+}
+2️⃣ Train Model
+POST /train
+Trains the model using labeled text data.
+Request
+{
+  "data": [
+    { "text": "I love this product", "label": 1 },
+    { "text": "This is terrible", "label": 0 }
+  ]
+}
+Response
+{
+  "message": "model trained successfully",
+  "vocab": 6
+}
+📌 Note: Training updates the in-memory model.
+3️⃣ Predict Sentiment
+POST /predict
+Request
+{
+  "text": "I really love this"
+}
+Response
+{
+  "text": "I really love this",
+  "probability": 0.94,
+  "sentiment": "positive"
+}
+🚀 Getting Started
+Prerequisites
+Go 1.20+
+macOS / Linux / Windows
+Run the Server
+go mod init sentiment-api
+go mod tidy
+go run main.go
+Server starts on:
+http://localhost:8080
+🧪 Example Usage (curl)
+Train
+curl -X POST http://localhost:8080/train \
+-H "Content-Type: application/json" \
+-d '{
+  "data": [
+    {"text": "I love this", "label": 1},
+    {"text": "This is great", "label": 1},
+    {"text": "I hate this", "label": 0},
+    {"text": "This is terrible", "label": 0}
+  ]
+}'
+Predict
+curl -X POST http://localhost:8080/predict \
+-H "Content-Type: application/json" \
+-d '{ "text": "I love this product" }'
+⚠️ Limitations (By Design)
+Model is in-memory only (lost on server restart)
+No persistence or model versioning
+Simple Bag-of-Words (no embeddings)
+Intended for learning, not production use
+🧠 What This Project Demonstrates
+How ML models work internally (no black boxes)
+How to integrate ML with backend APIs
+Separation of training and inference
+Practical ML engineering thinking
+Clean, minimal Go backend design
+🔮 Possible Improvements
+Persist model to disk or object storage
+Separate trainer and serving services
+Add evaluation metrics (accuracy, precision)
+Support larger datasets
+Dockerize the service
+Add model versioning
+👨‍💻 Author
+Built as a learning-focused ML + backend engineering project using Go and Gin.
