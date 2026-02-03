@@ -252,6 +252,4 @@ Built as a learning-focused ML + backend engineering project using **Go** and **
 
 ```
 
-Would you like me to generate the actual Go code for any of the files mentioned in the **Project Structure** section?
-
 ```
